@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Factory\AbstractDTOFactoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
@@ -14,7 +15,8 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     public function __construct(
-        protected AuthService $authService
+        protected AuthService $authService,
+        protected AbstractDTOFactoryInterface $dtoFactory
     )
     {
     }
@@ -25,8 +27,16 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $user = $this->authService->registerUser($data);
+        $dto = $this->dtoFactory->makeAuthRegister(
+            $request->getUsername(),
+            $request->getEmail(),
+            $request->getLastName(),
+            $request->getFirstName(),
+            $request->getGender(),
+            $request->getPassword()
+        );
+
+        $user = $this->authService->registerUser($dto);
 
         return response()->json([
            'data' => new UserResource($user)

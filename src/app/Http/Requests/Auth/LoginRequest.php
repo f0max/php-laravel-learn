@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
 {
+    private const string PARAM_USERNAME = 'username';
+    private const string PARAM_PASSWORD = 'password';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,8 +25,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string',
-            'password' => 'required|string'
+            self::PARAM_USERNAME => 'required|string',
+            self::PARAM_PASSWORD => 'required|string'
         ];
+    }
+
+    public function getUsername(): string
+    {
+        return $this->str(self::PARAM_USERNAME);
+    }
+
+    public function getPassword(): string
+    {
+        return $this->str(self::PARAM_PASSWORD);
     }
 }

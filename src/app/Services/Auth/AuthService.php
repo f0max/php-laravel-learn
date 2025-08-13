@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\DTO\AuthRegisterDTO;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
@@ -16,12 +17,12 @@ class AuthService
     }
 
     /**
-     * @param array $data
+     * @param AuthRegisterDTO $registerDTO
      * @return User
      */
-    public function registerUser(array $data): User
+    public function registerUser(AuthRegisterDTO $registerDTO): User
     {
-        return $this->userRepository->create($data);
+        return $this->userRepository->create($registerDTO);
     }
 
     /**

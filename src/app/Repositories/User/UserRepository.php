@@ -2,19 +2,20 @@
 
 namespace App\Repositories\User;
 
+use App\DTO\AuthRegisterDTO;
 use App\Models\User;
 
 class UserRepository
 {
-    public function create(array $data): User
+    public function create(AuthRegisterDTO $registerDTO): User
     {
         return User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'last_name' => $data['last_name'],
-            'first_name' => $data['first_name'],
-            'gender' => $data['gender'],
-            'password' => bcrypt($data['password']),
+            'username' => $registerDTO->username,
+            'email' => $registerDTO->email,
+            'last_name' => $registerDTO->last_name,
+            'first_name' => $registerDTO->first_name,
+            'gender' => $registerDTO->gender,
+            'password' => bcrypt($registerDTO->password),
         ]);
     }
 
